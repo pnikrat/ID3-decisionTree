@@ -21,13 +21,13 @@ class TreeCreator:
 
     def create_tree(self):
         self.main_set_entropy = self.utils.calculate_entropy(self.training_data)
+        # master_set_values are used to determine when we have to add ??? nodes (??? nodes have no training data)
+        if len(self.master_set_values) == 0:
+            self.generate_master_set_values()
         if self.main_set_entropy == 0:  # training data with single decision special case
             self.tree_root = TreeNode(None, self.level)
             self.tree_root.node_name = self.training_data[0][-1]
         else:
-            # master_set_values are used to determine when we have to add ??? nodes (??? nodes have no training data)
-            if len(self.master_set_values) == 0:
-                self.generate_master_set_values()
             # regular decision flow - on which attribute do we split this level?
             self.prepare_key_specific_cases_dict()
             partition_attribute = self.choose_attribute_for_partition(self.training_data)

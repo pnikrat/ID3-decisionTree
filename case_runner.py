@@ -1,6 +1,6 @@
 import csv
 from training import TreeCreator
-
+from classification import ClassificationFlow
 
 class SingleAlgorithmCase:
     """Handle single program run.
@@ -12,6 +12,7 @@ class SingleAlgorithmCase:
         self.file_handler = CsvFileHandler(cli_argument)
         self.training_labels = []
         self.training_data = []
+        self.decision_tree = None
 
     def start(self):
         self.file_handler.import_training_data()
@@ -22,6 +23,9 @@ class SingleAlgorithmCase:
             tree_creation.create_tree()
             tree_creation.print_tree()
             # start classification flow here
+            self.decision_tree = tree_creation
+            classification_flow = ClassificationFlow(self)
+            classification_flow.run_user_classification_loop()
         else:
             print("File does not exist")
 
